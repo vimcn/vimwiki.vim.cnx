@@ -9,7 +9,7 @@
               |___|  |___| |_|   |_||__| |__||___| |___| |_||___|            ~
 
 
-                               版本: 1.0
+                               版本: 1.1.1
                                译者: 闲耘™(hotoo.cn[AT]gmail.com)
                                      lizaib(biazil.x[AT]gmail.com)
                          本文档的 v1.0 中文版在 v0.9.9 基础之上更新。
@@ -28,7 +28,7 @@
         4.2. 局部命令                |vimwiki-local-commands|
     5. Wiki 语法                     |vimwiki-syntax|
         5.1. 字体                    |vimwiki-syntax-typefaces|
-        5.2. 链接                    |vimwiki-syntax-links|
+        5.2. 词条                    |vimwiki-syntax-links|
         5.3. 标题                    |vimwiki-syntax-headers|
         5.4. 段落                    |vimwiki-syntax-paragraphs|
         5.5. 列表                    |vimwiki-syntax-lists|
@@ -96,7 +96,7 @@ ProjectGutenberg ，编辑并保存它，然后按退格键(<Backspace>)可以�
 ------------------------------------------------------------------------------
 3.1. 全局映射                                        *vimwiki-global-mappings*
 
-[count]<Leader>ww 或者 <Plug>VimwikiGoHome
+[count]<Leader>ww 或者 <Plug>VimwikiIndex
         打开第 [count] 个 wiki 索引文件。
 
         <Leader>ww 从 |g:vimwiki_list| 打开第一个 wiki。
@@ -105,12 +105,12 @@ ProjectGutenberg ，编辑并保存它，然后按退格键(<Backspace>)可以�
         3<Leader>ww 从 |g:vimwiki_list| 打开第三个 wiki。
         依此类推：
         重映射： >
-        :map <Leader>w <Plug>VimwikiGoHome
+        :map <Leader>w <Plug>VimwikiIndex
 <
-更多可以参考|:VimwikiGoHome|
+更多可以参考|:VimwikiIndex
 
 
-[count]<Leader>wt 或者 <Plug>VimwikiTabGoHome
+[count]<Leader>wt 或者 <Plug>VimwikiTabIndex
         在新标签页中打开 第 [count] 个 wiki 索引文件。
 
         <Leader>wt 在标签页中打开 |g:vimwiki_list| 中的第一个 wiki。
@@ -119,9 +119,9 @@ ProjectGutenberg ，编辑并保存它，然后按退格键(<Backspace>)可以�
         3<Leader>wt 在标签页中打开 |g:vimwiki_list| 中的第三个 wiki。
         依此类推：
         重映射： >
-        :map <Leader>t <Plug>VimwikiTabGoHome
+        :map <Leader>t <Plug>VimwikiTabIndex
 <
-参考|:VimwikiTabGoHome|
+参考 |:VimwikiTabIndex|
 
 
 <Leader>ws 或者 <Plug>VimwikiUISelect
@@ -167,59 +167,59 @@ ProjectGutenberg ，编辑并保存它，然后按退格键(<Backspace>)可以�
 NORMAL MODE                                           *vimwiki-local-mappings*
 (普通模式)
                         *vimwiki_<CR>*
-<CR>                    打开/创建 WikiWord。
-                        映射到|:VimwikiFollowWord|。
+<CR>                    打开/创建 Wiki 词条。
+                        映射到 |:VimwikiFollowLink| 。
                         重映射： >
-                        :map <Leader>wf <Plug>VimwikiFollowWord
+                        :map <Leader>wf <Plug>VimwikiFollowLink
 <
                         *vimwiki_<S-CR>*
-<S-CR>                  横向分栏窗口中打开/创建 WikiWord。
-                        映射到|:VimwikiSplitWord|。
+<S-CR>                  横向分栏窗口中打开/创建 Wiki 词条。
+                        映射到 |:VimwikiSplitLink| 。
                         重映射： >
-                        :map <Leader>we <Plug>VimwikiSplitWord
+                        :map <Leader>we <Plug>VimwikiSplitLink
 <
                         *vimwiki_<C-CR>*
-<C-CR>                  纵向分栏窗口中打开/创建 WikiWord。
-                        映射到|:VimwikiVSplitWord|。
+<C-CR>                  纵向分栏窗口中打开/创建 Wiki 词条。
+                        映射到 |:VimwikiVSplitLink| 。
                         重映射： >
-                        :map <Leader>wq <Plug>VimwikiVSplitWord
+                        :map <Leader>wq <Plug>VimwikiVSplitLink
 <
                         *vimwiki_<Backspace>*
-<Backspace>             回到上一个 WikiWord
-                        映射到|:VimwikiGoBackWord|。
+<Backspace>             回到上一个 Wiki 词条。
+                        映射到|:VimwikiGoBackLink|。
                         重映射： >
-                        :map <Leader>wb <Plug>VimwikiGoBackWord
+                        :map <Leader>wb <Plug>VimwikiGoBackLink
 <
                         *vimwiki_<Tab>*
-<Tab>                   寻找并将光标定位到下一个 WikiWord
-                        映射到|:VimwikiNextWord|。
+<Tab>                   寻找并将光标定位到下一个 Wiki 词条。
+                        映射到 |:VimwikiNextLink| 。
                         重映射： >
-                        :map <Leader>wn <Plug>VimwikiNextWord
+                        :map <Leader>wn <Plug>VimwikiNextLink
 <
                         *vimwiki_<S-Tab>*
-<S-Tab>                 寻找并将光标定位到上一个 WikiWord
-                        映射到|:VimwikiPrevWord|。
+<S-Tab>                 寻找并将光标定位到上一个 Wiki 词条。
+                        映射到 |:VimwikiPrevLink| 。
                         映射到： >
-                        :map <Leader>wp <Plug>VimwikiPrevWord
+                        :map <Leader>wp <Plug>VimwikiPrevLink
 <
                         *vimwiki_<Leader>wd*
-<Leader>wd              删除当前所在的 WikiWord。
-                        映射到|:VimwikiDeleteWord|。
+<Leader>wd              删除光标所在的 Wiki 词条。
+                        映射到 |:VimwikiDeleteLink| 。
                         重映射： >
-                        :map <Leader>dd <Plug>VimwikiDeleteWord
+                        :map <Leader>dd <Plug>VimwikiDeleteLink
 <
                         *vimwiki_<Leader>wr*
-<Leader>wr              重命名当前所在的 WikiWord。
-                        映射到|:VimwikiRenameWord|。
+<Leader>wr              重命名光标所在的 Wiki 词条。
+                        映射到|:VimwikiRenameLink|。
                         重映射： >
-                        :map <Leader>rr <Plug>VimwikiRenameWord
+                        :map <Leader>rr <Plug>VimwikiRenameLink
 <
                         *vimwiki_<C-Space>*
 <C-Space>               切换列表项的开关（选中/反选）
                         （译注：<C-Space> 是中文输入法切换热键，可以参考下面的
                           重映射方法，不过 <leader>tt 也是插件 tasklist.vim 的
                           热键。）
-                        映射到|:VimwikiToggleListItem|。
+                        映射到 |:VimwikiToggleListItem|。
                         重映射： >
                         :map <leader>tt <Plug>VimwikiToggleListItem
 <                       参考 |vimwiki-todo-lists|。
@@ -247,17 +247,23 @@ gww                     这个表格可以重新格式化它。
 <A-Right>               向右移动表格当前列。
                         参考 |:VimwikiTableMoveColumnRight|
 
+                        *vimwiki_<C-Up>*
+<C-Up>                  如果可以，打开上一个日记词条。
+                        参考 |:VimwikiDiaryPrevDay|
 
+                        *vimwiki_<C-Down>*
+<C-Down>                如果可以，打开下一个日记词条。
+                        参考 |:VimwikiDiaryNextDay|
 
 
 仅在 |g:vimwiki_use_mouse| 设置为 1 的情况下有效。
-<2-LeftMouse>           双击鼠标打开/创建 WikiWord
+<2-LeftMouse>           双击鼠标打开/创建 Wiki 词条。
 
-<S-2-LeftMouse>         横向分栏窗口中打开/创建 WikiWord
+<S-2-LeftMouse>         横向分栏窗口中打开/创建 Wiki 词条。
 
-<C-2-LeftMouse>         纵向分栏窗口中打开/创建 WikiWord
+<C-2-LeftMouse>         纵向分栏窗口中打开/创建 Wiki 词条。
 
-<RightMouse><LeftMouse> 返回到上一个 WikiWord
+<RightMouse><LeftMouse> 返回到上一个 Wiki 词条。
 
 Note: <2-LeftMouse> 即仅双击左键。
 
@@ -298,10 +304,10 @@ ic                      表格单元格内部。
 ------------------------------------------------------------------------------
 4.1. 全局命令                                        *vimwiki-global-commands*
 
-*:VimwikiGoHome*
+*:VimwikiIndex*
     打开当前 wiki 的索引文件。
 
-*:VimwikiTabGoHome*
+*:VimwikiTabIndex*
     在新标签页中打开当前 wiki 的索引文件。
 
 *:VimwikiUISelect*
@@ -316,36 +322,42 @@ ic                      表格单元格内部。
 ------------------------------------------------------------------------------
 4.2. 局部命令                                         *vimwiki-local-commands*
 
-*:VimwikiFollowWord*
-    打开/创建 WikiWord。
+*:VimwikiFollowLink*
+    打开/创建 Wiki 词条。
 
 
-*:VimwikiGoBackWord*
-    返回到跳转过来的上一个 WikiWord。
+*:VimwikiGoBackLink*
+    返回到跳转过来的上一个 Wiki 词条。
 
 
-*:VimwikiSplitWord*
-    在纵向分栏窗口中打开/创建 WikiWord。
+*:VimwikiSplitLink*
+    在纵向分栏窗口中打开/创建 Wiki 词条。
 
 
-*:VimwikiVSplitWord*
-    在横向分栏窗口中打开/创建 WikiWord。
+*:VimwikiVSplitLink*
+    在横向分栏窗口中打开/创建 Wiki 词条。
 
 
-*:VimwikiNextWord*
-    寻找并将光标定位到下一个 WikiWord。
+*:VimwikiNextLink*
+    寻找并将光标定位到下一个 Wiki 词条。
 
 
-*:VimwikiPrevWord*
-    寻找并将光标定位到上一个 WikiWord。
+*:VimwikiPrevLink*
+    寻找并将光标定位到上一个 Wiki 词条。
 
 
-*:VimwikiDeleteWord*
-    删除当前所在的 WikiWord。
+*:VimwikiGoto*
+    跳转到指定词条。例如： >
+        :VimwikiGoto HelloWorld
+<   打开或创建 HelloWorld wiki 页面。
 
 
-*:VimwikiRenameWord*
-    重命名当前所在的 WikiWord。
+*:VimwikiDeleteLink*
+    删除当前所在的 Wiki 词条。
+
+
+*:VimwikiRenameLink*
+    重命名当前所在的 Wiki 词条。
 
 
 *:Vimwiki2HTML*
@@ -364,6 +376,8 @@ ic                      表格单元格内部。
 *:VimwikiSearch* /pattern/
 *:VWS* /pattern/
     在当前 wiki 中搜索 /pattern/。
+    使用 |:cnext| 命令显示下一个匹配项。
+    使用 |:cprevious| 命令显示上一个匹配项。
 
 
 *:VimwikiTable*
@@ -404,7 +418,16 @@ ic                      表格单元格内部。
 
 
 *:VimwikiGenerateLinks*
-    插入所有可用的链接到当前缓冲区。
+    插入所有可用的词条到当前缓冲区。
+
+
+*:VimwikiDiaryNextDay*
+    如果可以，打开下一个日记词条。
+    映射到 <C-Down>
+
+*:VimwikiDiaryPrevDay*
+    如果可以，打开上一个日记词条。
+    映射到 <C-Up>。
 
 
 ==============================================================================
@@ -430,18 +453,18 @@ MediaWiki 语法文件包含在这个发行版之中（不包含 MediaWiki 原�
   下标,,脚本,,
 
 ------------------------------------------------------------------------------
-5.2. 链接                                               *vimwiki-syntax-links*
+5.2. 词条                                               *vimwiki-syntax-links*
 
 内部链接~
 WikiWords: >
   CapitalizedWordsConnected
 
-你可以通过在前面加感叹号的方式来取消(驼峰式) WikiWord 链接。 >
+你可以通过在前面加感叹号的方式来取消(驼峰式) Wiki 词条。 >
   !CapitalizedWordsConnected
 
-或者通过|g:vimwiki_camel_case|参数来完全禁用(驼峰式) WikiWord。
+或者通过 |g:vimwiki_camel_case| 参数来完全禁用(驼峰式) WikiWord。
 
-(WikiWord)里带空格的链接： >
+词条里带空格时： >
   [[This is a link]]
 或： >
   [[链接源地址|链接描述]]
@@ -762,6 +785,18 @@ Vimwiki 可以根据标题和列表项来折叠或显示大纲。
 
 
 ------------------------------------------------------------------------------
+%title 页面的标题(title)
+
+When you htmlize your wiki page you have default title which is the filename
+of the page.
+为 wiki 页面生成 html 时，默认使用文件名做为标题。
+如果希望使用另一个标题，在 wiki 页面中加入： >
+
+    %title My books
+<
+
+
+------------------------------------------------------------------------------
 %nohtml                                                       *vimwiki-nohtml*
 
 如果不希望 wiki 被转为 html 页面， wiki 中输入： >
@@ -1057,9 +1092,10 @@ html_header
         <div class="contents">
 
 变量说明
-  %title% 显示wiki页的名字
-  %root_path% 显示子目录链接
-
+  %title% 将被替换为 wiki 的文件名或者 |vimwiki-title|
+  %root_path% 显示根目录的相对路径。
+                例如 wiki 词条为 [[dir1/dir2/dir3/WikiLink]]
+                则 %root_path% 会被替换为 '../../../'。
 
 
 *vimwiki-option-html_footer*
@@ -1093,27 +1129,14 @@ css_name        style.css
           \ 'css_name': 'css/main.css'}]
 <
 
-*vimwiki-option-gohome*
-------------------------------------------------------------------------------
-选项            缺省值            值~
-gohome          split             split, vsplit, tabe
-
-描述
-这个选项与:VimwikiGoHome 命令的功能一样。
-比如“没有写入上次缓冲区”，然后执行 <Leader>ww (或者 :VimwikiGoHome)，vimwiki
-索引文件将会分开窗口，即垂直分开或在一个新的tab窗口打开。
-例如: >
-  let g:vimwiki_list = [{'path': '~/my_site/', 'gohome': 'vsplit'}]
-<
-
 *vimwiki-option-maxhi*
 ------------------------------------------------------------------------------
 选项            缺省值            值~
 maxhi           1                 0, 1
 
 描述~
-不存在WikiWord关键字，即红色高亮标记的关键字，会使操作比较慢，比如切换啥的。
-如果你想关闭文件系统总是检查WikiWord，你可以将maxhi的值设为0。
+不存在 Wiki 词条，即红色高亮标记的关键字，会使操作变慢，比如切换啥的。
+如果不想让文件系统总是检查 Wiki 词条，可以将 maxhi 的值设为 0。
 例如:
   let g:vimwiki_list = [{'path': '~/my_site/', 'maxhi': 0}]
 
@@ -1256,9 +1279,9 @@ GLOBAL OPTIONS                                        *viwmiki-global-options*
 ------------------------------------------------------------------------------
 *g:vimwiki_upper* *g:vimwiki_lower*
 
-这会影响WikiWord的检测。
-在默认情况下，WikiWord会检测使用英语、俄语的字母。
-你可以设置为你自己的: >
+这会影响词条的检测。
+在默认情况下，词条会检测使用英语、俄语的字母。
+你可以设置为自己的: >
   let g:vimwiki_upper = "A-Z\u0410-\u042f"
   let g:vimwiki_lower = "a-z\u0430-\u044f"
 
@@ -1372,11 +1395,11 @@ g:vimwiki_listsyms[4] 是完成 100% 的项。
 ------------------------------------------------------------------------------
 *g:vimwiki_camel_case*
 
-如果不希望 WikiWord 这样的驼峰式词组作为一个 Wiki 链接，可以更改这个设置。
+如果不希望 WikiWord 这样的驼峰式词组作为一个 Wiki 词条，可以更改这个设置。
 
 值              描述~
-0               不要将驼峰式词组作为 Wiki 链接。
-1               将驼峰式词组作为 Wiki 链接。
+0               不要将驼峰式词组作为 Wiki 词条。
+1               将驼峰式词组作为 Wiki 词条。
 
 默认值: 1
 
@@ -1464,6 +1487,8 @@ g:vimwiki_listsyms[4] 是完成 100% 的项。
 
 默认： 0
 
+注意: Vim73 加入了 |strdisplaywidth| 特性，所以对于 Vim73 用户来说，该选项已过时。
+
 
 ------------------------------------------------------------------------------
 *g:vimwiki_dir_link*
@@ -1541,6 +1566,40 @@ g:vimwiki_listsyms[4] 是完成 100% 的项。
 
 默认: '' (空字符)
 
+------------------------------------------------------------------------------
+*g:vimwiki_file_exts*
+
+逗号分隔的文件后缀列表。
+
+考虑到以下链接： [[my_script.php][my script]]。
+如果 'php' 后缀在 g:vimwiki_file_exts 中，这个链接在生成 html 文件时，会被
+生成为 <a href="my_script.php">>my script</a>。
+否则，将被生成为 <a href="my_script.php.html">my script</a> (注意 .html)
+
+
+默认值： 'pdf,txt,doc,rtf,xls,php,zip,rar,7z,html,gz'
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_valid_html_tags*
+
+可以在 vimwiki 里使用的 html 标签列表，以逗号分隔。
+
+默认值： 'b,i,s,u,sub,sup,kbd,br,hr'
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_conceallevel*
+
+在 Vim73 中 |conceallevel| 是针对局部的窗口选项设置，因此，当在新标签页或
+新窗口中打开 Vimwiki 缓冲区时，它会被设置为默认值。
+
+Vimwiki 在每次进入 vimwiki 缓冲区时都设置 |conceallevel| 为
+g:vimwiki_conceallevel
+
+默认值： 3
+
+
 
 ==============================================================================
 12. 帮助                                                        *vimwiki-help*
@@ -1573,6 +1632,51 @@ Maxim Kim.
 
 ==============================================================================
 14. Changelog                                              *vimwiki-changelog*
+
+1.1.1~
+    * FIX: Issue 122: Dot character in vimwiki's directory path isn't escaped.
+    * FIX: Issue 123: Where is Vimwiki2HTML and other commands? Sometimes
+      filetype is not set up to vimwiki.
+    * FIX: Issue 124: Highlight group not found: Normal
+
+1.1~
+    * NEW: Issue 57: Make it possible to have pre block inside list item.
+    * NEW: Issue 82: Add quick goto command. See |:VimwikiGoto|.
+    * NEW: Issue 83: Quick switch in diary. See |:VimwikiDiaryNextDay| and
+      |:VimwikiDiaryPrevDay| commands.
+    * FIX: Issue 84: Vimwiki rename removed the WikiWord display name.
+    * FIX: Issue 85: Errors if you have '~' subdirectory in a wiki directory.
+    * FIX: Issue 86: Existed links '[[WikiLink1|Alias1]] | [[WikiLink2]]' are
+      highlighted as a single link.
+    * FIX: Issue 88: Underline text. See |g:vimwiki_valid_html_tags|.
+    * FIX: Issue 92: Wikies in a subdir could be renamed to an empty file.
+    * FIX: Issue 93: Use alias name in html title. See |vimwiki-title|.
+    * FIX: Issue 94: Relative links to PHP files are broken. See
+      |g:vimwiki_file_exts| for details.
+    * FIX: Issue 96: Closing bracket at the end of weblink shouldn't be a part
+      of that link.
+    * FIX: Issue 97: Error opening weblink in a browser if it has # inside.
+    * FIX: Issue 99: Vim is not responding while opening arbitrary wiki file.
+    * FIX: Issue 100: Additional content on diary index page could be
+      corrupted.
+    * NEW: Issue 101: Customized HTML tags. See |g:vimwiki_valid_html_tags|
+    * NEW: Issue 102: Conceal feature usage. See |g:vimwiki_conceallevel|.
+    * FIX: Issue 103: Always highlight links to non-wiki files as existed.
+    * FIX: Issue 104: vimwiki#nested_syntax needs 'keepend' to avoid contained
+      language syntax eat needed '}}}'.
+    * FIX: Issue 105: <i_CR> on a todo list item with [ ] doesn't create new
+      todo list item.
+    * FIX: Issue 106: With MediaWiki syntax <C-Space> on a child todo list
+      item produce errors.
+    * FIX: Issue 107: With MediaWiki syntax <C-Space> on a list item creates
+      todo list item without space between * and [ ].
+    * FIX: Issue 110: Syntax highlighting doesn't work for indented codeblock.
+    * FIX: Issue 115: Nested Perl syntax highlighting differs from regular
+      one.
+    * MISC: Many vimwiki commands were renamed from Vimwiki.*Word to
+      Vimwiki.*Link. VimwikiGoHome is renamed to VimwikiIndex,
+      VimwikiTabGoHome to VimwikiTabIndex.
+    * MISC: vimwiki-option-gohome is removed.
 
 1.0~
     * NEW: Issue 41: Table cell and column text objects. See
