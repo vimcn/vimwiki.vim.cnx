@@ -1,0 +1,5 @@
+
+Vimwiki 中文文档
+================
+
+这是一份针对 [Vimwiki 项目](http://code.google.com/p/vimwiki/) 的文档翻译项目。
