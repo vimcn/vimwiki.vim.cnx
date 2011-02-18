@@ -1,16 +1,18 @@
-*vimwiki.txt*   Vim 中的个人Wiki
+*vimwiki.txt*   Vim 里的个人维基(Wiki)
 
-     __  __  ______            __      __  ______   __  __   ______     ~
-    /\ \/\ \/\__  _\   /'\_/`\/\ \  __/\ \/\__  _\ /\ \/\ \ /\__  _\    ~
-    \ \ \ \ \/_/\ \/  /\      \ \ \/\ \ \ \/_/\ \/ \ \ \/'/'\/_/\ \/    ~
-     \ \ \ \ \ \ \ \  \ \ \__\ \ \ \ \ \ \ \ \ \ \  \ \ , <    \ \ \    ~
-      \ \ \_/ \ \_\ \__\ \ \_/\ \ \ \_/ \_\ \ \_\ \__\ \ \\`\   \_\ \__ ~
-       \ `\___/ /\_____\\ \_\\ \_\ `\___x___/ /\_____\\ \_\ \_\ /\_____\~
-        `\/__/  \/_____/ \/_/ \/_/'\/__//__/  \/_____/ \/_/\/_/ \/_____/~
+             __   __  ___   __   __  _     _  ___   ___   _  ___             ~
+            |  | |  ||   | |  |_|  || | _ | ||   | |   | | ||   |            ~
+            |  |_|  ||   | |       || || || ||   | |   |_| ||   |            ~
+            |       ||   | |       ||       ||   | |      _||   |            ~
+            |       ||   | |       ||       ||   | |     |_ |   |            ~
+             |     | |   | | ||_|| ||   _   ||   | |    _  ||   |            ~
+              |___|  |___| |_|   |_||__| |__||___| |___| |_||___|            ~
 
-                               Version: 0.9.9
-                         译者：闲耘™(hotoo.cn[AT]gmail.com)
-                               lizaib(biazil.x[AT]gmail.com)
+
+                               版本: 1.0
+                               译者: 闲耘™(hotoo.cn[AT]gmail.com)
+                                     lizaib(biazil.x[AT]gmail.com)
+                         本文档的 v1.0 中文版在 v0.9.9 基础之上更新。
 
 ==============================================================================
 目录                                                        *vimwiki-contents*
@@ -36,14 +38,13 @@
         5.9. 注释                    |vimwiki-syntax-comments|
     6. 折叠/大纲                     |vimwiki-folding|
     7. 占位符                        |vimwiki-placeholders|
-        7.1 目录                     |vimwiki-table-of-contents|
-    8. 待办事项(Todo)列表            |vimwiki-todo-lists|
+    8. 待办事项(TODO)列表            |vimwiki-todo-lists|
     9. 表格                          |vimwiki-tables|
     10. 日记                         |vimwiki-diary|
     11. 选项                         |vimwiki-options|
     12. 帮助                         |vimwiki-help|
-    13. 作者                         |vimwiki-author|
-    14. 版本变更日志                 |vimwiki-changelog|
+    13. 开发者                       |vimwiki-developers|
+    14. 版本更新记录                 |vimwiki-changelog|
     15. 许可证                       |vimwiki-license|
 
 
@@ -229,13 +230,22 @@ NORMAL MODE                                           *vimwiki-local-mappings*
                         '=' 命令。
 
                         *vimwiki_-*
--                       删除标题级别。
+-                       降低标题级别。
 
 
                         *vimwiki_gqq*  *vimwiki_gww*
 gqq                     格式化表格。
  或                     如果你在没有切换插入模式和普通模式的情况下改变了表格内容，
 gww                     这个表格可以重新格式化它。
+
+
+                        *vimwiki_<A-Left>*
+<A-Left>                向左移动表格的当前列。
+                        参考 |:VimwikiTableMoveColumnLeft|
+
+                        *vimwiki_<A-Right>*
+<A-Right>               向右移动表格当前列。
+                        参考 |:VimwikiTableMoveColumnRight|
 
 
 
@@ -264,6 +274,10 @@ INSERT MODE                                           *vimwiki-table-mappings*
 
 
 
+                        *vimwiki_i_<S-CR>*
+<S-CR>                  插入 <br /> 并回车换行。
+
+
 ------------------------------------------------------------------------------
 3.3. 文本对象                                          *vimwiki-text-objects*
 
@@ -273,6 +287,10 @@ ih                      一个不包含前置空行的标题内部。
 你可以使用 'vah' 来选择包含其内容的标题，或者使用 'dah' 来删除、或者可以用
 'yah' 来复制、或者也可以使用 'cah' 来修改这个标题。
 
+a\                      表格中的一整个单元格（包括单元格边框）。
+i\                      表格单元格内部。
+ac                      表格的一列（包括单元格边框）。
+ic                      表格单元格内部。
 
 ==============================================================================
 4. 命令                                                     *vimwiki-commands*
@@ -358,18 +376,45 @@ ih                      一个不包含前置空行的标题内部。
     创建一个指定列数和 2 行的表格。
 
 
+*:VimwikiTableMoveColumnLeft* , *:VimwikiTableMoveColumnRight*
+    向左或向右移动当前列：
+    例如： >
+
+    | head1  | head2  | head3  | head4  | head5  |
+    |--------+--------+--------+--------+--------|
+    | value1 | value2 | value3 | value4 | value5 |
+
+
+    光标在 'head1' 之上。
+    :VimwikiTableMoveColumnRight
+
+    | head2  | head1  | head3  | head4  | head5  |
+    |--------+--------+--------+--------+--------|
+    | value2 | value1 | value3 | value4 | value5 |
+
+    光标在 'head3' 之上。
+    :VimwikiTableMoveColumnLeft
+
+    | head2  | head3  | head1  | head4  | head5  |
+    |--------+--------+--------+--------+--------|
+    | value2 | value3 | value1 | value4 | value5 |
+<
+
+    命令已分别映射到 <A-Left> 和 <A-Right> 快捷键上。
+
+
+*:VimwikiGenerateLinks*
+    插入所有可用的链接到当前缓冲区。
+
+
 ==============================================================================
 5. Wiki 语法                                                  *vimwiki-syntax*
 
 这里有许多不同的 wiki， 许多情况下它们有自己的语法，vimwiki 也不例外。默认的
 vimwiki 语法是 google 的 wiki 语法标记的子集。
 
-作为 MediaWiki 语法 -- 它对于非英文（例如我使用的俄文）的键盘布局来说，用
-'''''' 来强调文本是不方便的。你为了加粗非英文，必须每次切换布局，这就是为什么
-不使用 MediaWiki 的原因。
-
-不过，还是包含有一些 MediaWiki 语法 （没有包括 MediaWiki 原始语法中那些花哨的
-部分）。
+MediaWiki 语法文件包含在这个发行版之中（不包含 MediaWiki 原始语法中那些花里胡哨
+的部分）。
 参考 |vimwiki-option-syntax|。
 
 
@@ -491,19 +536,6 @@ Image link is the link with one of jpg, png or gif endings.
                      = 居中的 1 级标题 =~
 
 
-
-Note: 在 vimwiki 0.8.2 之前，标题的语法标记使用感叹号：
-! 1 级标题
-!! 2 级标题
-依此类推...
-
-如果你是从 0.8.2 之前的版本升级，下面的命令也许会很有用。
-将你的 wiki 文件中的 !标题 变为 =标题=： >
- :args .wiki
- :argdo %s/^\(!\+\)\([^!].*$\)/\=substitute(submatch(1),'!','=','g').submatch(2).substitute(submatch(1),'!','=','g')
-
-Note: 记得备份先！
-
 ------------------------------------------------------------------------------
 5.4. 段落                                          *vimwiki-syntax-paragraphs*
 
@@ -607,12 +639,13 @@ Note *, - 或 # 之后的空格是必须的。
 下面的这部分，在 html 中高亮为表头样式： >
  | 年   | 最低温度 | 最高温度 |
  |------+----------+----------|
->
+<
 
+如果表格被缩进，这在 html 页面中这个表格会居中。
 
 关于如何管理表格的详细信息，可以参考 |vimwiki-tables|。
 
-Note: 你可以在表格中使用 [[链接地址|描述信息]] 的链接类型，
+备注： 你可以在表格中使用 [[链接地址|描述信息]] 的链接类型，
 或使用 [[链接地址][描述信息]] 来替代。
 
 
@@ -702,7 +735,7 @@ Vimwiki 可以根据标题和列表项来折叠或显示大纲。
   * [ ] 做某事 2~
   * [ ] 做某事 3~
 
-NOTE: 不论是否使用默认语法，只要是使用 |shiftwidth| 来缩进，在列表项是的折叠
+备注： 不论是否使用默认语法，只要是使用 |shiftwidth| 来缩进，在列表项是的折叠
 都会正常工作。对于 MediaWiki 来说，* 和 # 都应该放在第一列。
 
 设置 |g:vimwiki_folding| 来启用/禁用折叠。
@@ -711,22 +744,29 @@ NOTE: 不论是否使用默认语法，只要是使用 |shiftwidth| 来缩进，
 7. 占位符                                               *vimwiki-placeholders*
 
 ------------------------------------------------------------------------------
-7.1. 目录                            *vimwiki-toc* *vimwiki-table-of-contents*
+%toc 目录                            *vimwiki-toc* *vimwiki-table-of-contents*
 
-You can add 'table of contents' to your html page generated from wiki one.
-从某个 wiki 导出 html 时，可以添加 '目录' 到 html 页面中。
+从某个 wiki 生成 html 时，可以添加目录到 html 页面中。
 只需要输入 >
 
-%toc
+    %toc
 
 到 wiki 页面。
 还可以给“目录”添加标题： >
 
-%toc 目录
+    %toc 目录
 
 或者 >
 
-%toc 随便什么
+    %toc 随便什么
+
+
+------------------------------------------------------------------------------
+%nohtml                                                       *vimwiki-nohtml*
+
+如果不希望 wiki 被转为 html 页面， wiki 中输入： >
+
+    %nohtml
 
 
 ==============================================================================
@@ -815,6 +855,8 @@ You can add 'table of contents' to your html page generated from wiki one.
  | James      | Esfandiary | 27   | 伊斯坦布尔 | esfandiary@tmail.com |
 <
 
+格式化表格可以使用 'gqq' 快捷键。
+
 
 
 ==============================================================================
@@ -863,6 +905,10 @@ You can add 'table of contents' to your html page generated from wiki one.
 Calendar.vim的插件，你可以在这下载：http://www.vim.org/scripts/script.php?script_id=52
 
 
+参考 |g:vimwiki_use_calendar| 选项用来启用/禁用日历。
+
+
+
 ==============================================================================
 11. 选项                                                      *vimwiki-options*
 可以通过全局或者每个 wiki (局部)的选项来设置 vimwki，所有的全局选项都使用如下模板来设置：
@@ -892,14 +938,29 @@ Calendar.vim的插件，你可以在这下载：http://www.vim.org/scripts/scrip
   let g:vimwiki_list = [{},
             \ {'path': '~/my_docs/', 'ext': '.mdox'}]
 
-译者的设置如下：
-  let g:vimwiki_list = [{'path': 'F:/File/My Dropbox/VimWiki/A0.WikiIndex/',
-\ 'path_html': 'F:/File/My Dropbox/VimWiki/Z0.OutHtml',
-\ 'html_header': 'F:/File/My Dropbox/VimWiki/Z0.Template/header.tpl',}]
+[注] 译者的设置如下： >
+      let g:vimwiki_list = [{'path': 'F:/File/My Dropbox/VimWiki/A0.WikiIndex/',
+    \ 'path_html': 'F:/File/My Dropbox/VimWiki/Z0.OutHtml',
+    \ 'html_header': 'F:/File/My Dropbox/VimWiki/Z0.Template/header.tpl',}]
+<
 
+你也可以用 |Dictionary| 分隔来创建多个 Wiki。 >
 
-局部WIKI选项                                         *viwmiki-local-options*
+    let wiki_1 = {}
+    let wiki_1.path = '~/my_docs/'
+    let wiki_1.html_header = '~/public_html/header.tpl'
+    let wiki_1.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
 
+    let wiki_2 = {}
+    let wiki_2.path = '~/project_docs/'
+    let wiki_2.index = 'main'
+
+    let g:vimwiki_list = [wiki_1, wiki_2]
+
+<
+
+PER WIKI OPTIONS                                         *viwmiki-local-options*
+(局部 WIKI 选项)
 
 
 *vimwiki-option-path*
@@ -1066,13 +1127,13 @@ nested_syntaxes {}                成对的高亮关键字，或者vim的文件�
 
 描述~
 你可以在Vim显示不同的语言语法高亮，像C++、Pytho等语法高亮。
-例如下面的设置: >
+例如下面在你的 vimrc 中的设置： >
   let wiki = {}
-  let wiki.path = '~/my_site/'
+  let wiki.path = '~/my_wiki/'
   let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
-  let vimwiki_list = [wiki]
+  let g:vimwiki_list = [wiki]
 
-设置python、c++高亮: >
+设置 python、c++ 高亮: >
  {{{class="brush: python"
  for i in range(1, 5):
      print(i)
@@ -1086,7 +1147,7 @@ nested_syntaxes {}                成对的高亮关键字，或者vim的文件�
  }
  }}}
 
-或者: >
+或者： >
  {{{c++
  #include "helloworld.h"
  int helloworld()
@@ -1138,13 +1199,14 @@ diary_link_count  4
 每一行显示日期链接的最大数目。
 例如:
 = Diary =
-|| [[2010-01-30]] || [[2010-01-29]] || [[2010-01-28]] || [[2010-01-27]] ||
-|| [[2010-01-26]] || [[2010-01-25]] ||
+| [[2010-01-30]] | [[2010-01-29]] | [[2010-01-28]] | [[2010-01-27]] |
+| [[2010-01-26]] | [[2010-01-25]] |
 
 
 
 
-全局选项                                              *viwmiki-global-options*
+GLOBAL OPTIONS                                        *viwmiki-global-options*
+(全局选项)
 
 使用: >
     let g:option_name=option_value
@@ -1377,8 +1439,6 @@ g:vimwiki_listsyms[4] 是完成 100% 的项。
 ------------------------------------------------------------------------------
 *g:vimwiki_w32_dir_enc*
 
-Convert directory name from current |encoding| into 'g:vimwiki_w32_dir_enc'
-before it is created.
 从当前编码(|encoding|)转换目录名称为 'g:vimwiki_w32_dir_enc' 编码。
 
 比如当前编码是 'enc=utf-8' 并且你设置 >
@@ -1387,37 +1447,181 @@ before it is created.
 则下面带换行符(<CR>)的链接： >
     [[привет/мир]]
 >
-将从 utf-8 的 'привет' 转换为 cp1251 编码，并使用这个名称创建目录。
+将从 utf-8 的 'привет' 转换为 cp1251 编码，并使用这个编码的名称创建目录。
 
-默认值: ''
+默认： ''
+
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_CJK_length*
+
+使用特殊的方法来计算双宽字符的长度（用来对齐表格单元）。
+
+值              描述~
+0               不使用。
+1               使用。
+
+默认： 0
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_dir_link*
+
+这个选项是关于目录链接的操作 -- [[directory/]], [[papers/]] 等等。
+
+值              描述~
+''              使用标准的 netrw 插件打开 'directory/' 目录。
+'index'         打开 'directory/index.wiki'，如果没有就创建。
+'main'          打开 'directory/main.wiki'，如果没有就创建。
+等等。
+
+默认: '' (空字符)
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_html_header_numbering*
+
+如果希望 html 中的标题带上自动编号，设置这个选项。
+
+例如： >
+    1 Header1
+    1.1 Header2
+    1.2 Header2
+    1.2.1 Header3
+    1.2.2 Header3
+    1.3 Header2
+    2 Header1
+    3 Header1
+等等。
+
+值              描述~
+0               关闭标题的编号。
+1               开启标题的编号。编号从一级标题开始。
+2               开启标题的编号。彪悍从二级标题开始。
+等等。
+
+例如当 g:vimwiki_html_header_numbering = 2: >
+    Header1
+    1 Header2
+    2 Header2
+    2.1 Header3
+    2.1.1 Header4
+    2.1.2 Header4
+    2.2 Header3
+    3 Header2
+    4 Header2
+等等。
+
+默认： 0
+
+
+------------------------------------------------------------------------------
+*g:vimwiki_html_header_numbering_sym*
+
+|g:vimwiki_html_header_numbering| 的结束符号。
+
+值              描述~
+'.'             点号将被添加到标题编号的后面。
+')'             右括号将被添加到标题编号的后面。
+等等。
+
+设置有
+    let g:vimwiki_html_header_numbering = '.'
+的标题将看起来如下： >
+    1. Header1
+    1.1. Header2
+    1.2. Header2
+    1.2.1. Header3
+    1.2.2. Header3
+    1.3. Header2
+    2. Header1
+    3. Header1
+
+
+默认: '' (空字符)
 
 
 ==============================================================================
 12. 帮助                                                        *vimwiki-help*
 
-你是否看出我的母语不是英语（所以写的不是很好）。请报告这里用的不正确的短语，
-并将正确的发给我。
+非常感谢你们帮助 vimwiki 变得更好！
+任何帮助，无论是修正错别字还是代码片段补丁 -- 欢迎一切。
 
-对于给予的任何帮助，感谢之至！
+有问题都可以提交到 http://code.google.com/p/vimwiki/issues .
+
 
 ==============================================================================
-13. 作者                                                    *vimwiki-author*
+13. 开发者                                               *vimwiki-developers*
 
-我住在莫斯科，不过相信我，这里的大街上没有北极熊（也没有棕熊）。
+    - Maxim Kim <habamax@gmail.com>
+      创始人。
+    - Mikhail Trishchenkov <kriomant(at)gmail.com>
+      于 2009 年 12 月加入。
 
-我不以编程为生，所以不要诧异我那些丑陋低效的代码，欢迎你来改善它。
+Vimwiki 的网址: http://code.google.com/p/vimwiki/
+Vim 插件的网址: http://www.vim.org/scripts/script.php?script_id=2226
+
+... 后记
 
 感谢所有在 www.vim.org 上给 vimwiki 投票的人。我本可以用业余时间和美女跳舞，
 不过你的投票也是一种很好的替代形式。 ;)
 
 此致，
-Maxim Kim <habamax@gmail.com>.
+Maxim Kim.
 
-Vimwiki 的网站: http://code.google.com/p/vimwiki/
-在 Vim 插件的网址: http://www.vim.org/scripts/script.php?script_id=2226
 
 ==============================================================================
 14. Changelog                                              *vimwiki-changelog*
+
+1.0~
+    * NEW: Issue 41: Table cell and column text objects. See
+      |vimwiki-text-objects|.
+    * NEW: Issue 42: Commands to move table columns left and right. See
+      |:VimwikiTableMoveColumnLeft| and |:VimwikiTableMoveColumnRight|.
+    * NEW: Issue 44: <S-Tab> should move cursor to the previous table cell.
+    * NEW: Issue 45: It should be possible to indent tables. Indented tables
+      are centered in html.
+    * NEW: Issue 46: Do not htmlize some wiki pages (blacklist). New
+      placeholder is added: %nohtml. See |vimwiki-nohtml|.
+    * FIX: Issue 47: Lists aren't HTMLized properly.
+    * FIX: Issue 48: With autochdir it is impossible to have path_html such as
+      'd:\vimwiki\html\'
+    * FIX: Issue 49: Table is not HTMLized properly at the end of wiki page.
+    * FIX: Issue 50: Inline formatting is not performed in table cells.
+    * FIX: Issue 51: Cannot insert '-' (minus) into table cells of the first
+      column.
+    * FIX: Issue 52: Table cell width is incorrect when double wide characters
+      are used (ie. Chinese). Check |g:vimwiki_CJK_length|.
+    * NEW: Issue 53: Wiki markup can not nested. (Use links and inline markup
+      in Headers).
+    * NEW: Issue 54: Highlight for placeholders.
+    * NEW: Issue 56: Directory indexes. See |g:vimwiki_dir_link| option and
+      |:VimwikiGenerateLinks| command.
+    * NEW: Issue 58: Html new lines with <br />. Could be inserted with <S-CR>
+      in insert mode.
+    * FIX: Issue 59: List item's text can't be started from *.
+    * NEW: Issue 60: Links inside completed gtd-items.
+    * NEW: Issue 61: Headers numbering. See |g:vimwiki_html_header_numbering|
+      and |g:vimwiki_html_header_numbering_sym| options.
+    * FIX: Issue 63: Table cannot have leading empty cells in html.
+    * FIX: Issue 65: Table separator is not htmlized right if on top of the
+      table.
+    * FIX: Issue 66: Table empty cells are very small in html.
+    * FIX: Issue 67: Wrong html conversion of multilined list item with bold
+      text on the start of next line.
+    * FIX: Issue 68: auto-indent problem with langmap.
+    * FIX: Issue 73: Link navigation by Tab. "Escaped" wiki-word should be
+      skipped for navigation with <tab>.
+    * FIX: Issue 75: `code` syntax doesn't display correctly in toc.
+    * FIX: Issue 77: Diary index only showing link to today's diary entry
+      file for extensions other than '.wiki'.
+    * FIX: Issue 79: Further calendar.vim integration -- add sign to calendar
+      date if it has corresponding diary page.
+    * FIX: Issue 80: Debian Lenny GUI Vim 7.2 has problems with toggling inner
+      todo list items.
+    * FIX: Issue 81: Don't convert WikiWord as a link in html when
+      `let g:vimwiki_camel_case = 0`
 
 0.9.9~
     * NEW: Diary. Help in making daily notes. See |vimwiki-diary|. Now you can
@@ -1797,7 +2001,7 @@ Vimwiki 的网站: http://code.google.com/p/vimwiki/
 The MIT Licence
 http://www.opensource.org/licenses/mit-license.php
 
-Copyright (c) 2010 Maxim Kim
+Copyright (c) 2008-2010 Maxim Kim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
